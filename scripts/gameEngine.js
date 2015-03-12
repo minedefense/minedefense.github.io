@@ -42,11 +42,24 @@ function GameEngine(label,ui,storeEl){
 	this.textures.stone = this.ctx.Texture("textures/stone2.png");
 	this.textures.grass = this.ctx.Texture("textures/grass2.png");
 	this.textures.wood = this.ctx.Texture("textures/wood.png");
+	this.textures.leg = this.ctx.Texture("textures/leg.png");
+	this.textures.arm = this.ctx.Texture("textures/arm.png");
+
 
 
 	//define the game colors
 	this.colors = {};
 	this.colors.white = this.ctx.Color(255,255,255);
+	this.colors.red = this.ctx.Color(255,0,0);
+	this.colors.green = this.ctx.Color(0,255,0);
+	this.colors.blue = this.ctx.Color(0,0,255);
+
+	this.colors.legBot = this.ctx.Color(97,43,6);
+	this.colors.legTop = this.ctx.Color(36,92,253);
+	this.colors.skin = this.ctx.Color(221,168,160);
+	
+	this.colors.gold = this.ctx.Color(255,215,0);
+
 
 }
 
@@ -80,6 +93,31 @@ GameEngine.prototype.startGame = function(){
 		localStorage.setItem("world",saved);
 	}
 	this.load(saved);
+/*
+	this.ctx.add(new Rect(this.ctx,0,0.6,3+0.5, 0.5,0,0, 0,0.5,0,this.colors.green));
+	this.ctx.add(new Rect(this.ctx,0,0.6,3-0.5, 0.5,0,0, 0,0.5,0,this.colors.green));
+
+	this.ctx.add(new Rect(this.ctx,0,0.6+0.5,3, 0.5,0,0, 0,0,0.5,this.colors.red));
+	this.ctx.add(new Rect(this.ctx,0,0.6-0.5,3, 0.5,0,0, 0,0,0.5,this.colors.red));
+
+	this.ctx.add(new Rect(this.ctx,0+0.5,0.6,3, 0,0.5,0, 0,0,0.5,this.colors.blue));
+	this.ctx.add(new Rect(this.ctx,0-0.5,0.6,3, 0,0.5,0, 0,0,0.5,this.colors.blue));
+*/
+
+	//legs
+	this.ctx.add(new Rect3D(this.ctx, 0.15,-0.1,3, 0.1,0.4,0.08, this.textures.leg,this.colors.legTop,this.colors.legBot));
+	this.ctx.add(new Rect3D(this.ctx, -0.15,-0.1,3, 0.1,0.4,0.08, this.textures.leg,this.colors.legTop,this.colors.legBot));
+	//body
+	this.ctx.add(new Rect3D(this.ctx, 0,0.7,3, 0.25,0.4,0.08, this.colors.legTop,this.colors.legTop,this.colors.legTop));
+	//arms
+	this.ctx.add(new Rect3D(this.ctx, 0.34,0.77,3, 0.07,0.33,0.08, this.textures.arm,this.colors.legTop,this.colors.skin));
+	this.ctx.add(new Rect3D(this.ctx, -0.34,0.77,3, 0.07,0.33,0.08, this.textures.arm,this.colors.legTop,this.colors.skin));
+	//head
+	this.ctx.add(new Rect3D(this.ctx, 0,1.3,3, 0.15,0.15,0.15, this.colors.skin,this.colors.skin,this.colors.skin));
+
+
+	new Gold(this.ctx,this.colors,0,0,-10);
+
 
 	this.cursor = new LineCube(this.ctx,0,0,0,this.colors.white);
 

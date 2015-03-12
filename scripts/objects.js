@@ -93,4 +93,26 @@ Grass.prototype.revive = function(ctx,textures,collisions,args){
 }
 
 
-var SCENEOBJECTS = [WoodWall,StoneWall,Grass];
+function Gold(ctx,textures,x,y,z){
+	this.x = x;this.y = y;this.z = z;
+
+	this.cube = new Cube(ctx,x,y,z,textures.gold);
+
+	this.draw = function(gl,shader){
+		this.cube.draw(gl,shader);
+	}
+
+	this.stringify = function(){
+		return 3+" "+this.x+" "+this.y+" "+this.z+"\n";
+	}
+
+	ctx.add(this);
+};
+
+Gold.prototype.revive = function(ctx,textures,collisions,args){
+	var r = new Gold(ctx,textures,parseFloat(args[1]),parseFloat(args[2]),parseFloat(args[3]));
+	return r;
+}
+
+
+var SCENEOBJECTS = [WoodWall,StoneWall,Grass,Gold];

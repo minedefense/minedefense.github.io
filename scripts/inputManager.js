@@ -10,7 +10,7 @@ function KeyManager(element){
     var that = this;
 
     document.onkeydown = function(evt){
-        console.log(evt.keyCode);
+        //console.log(evt.keyCode);
 
         switch(evt.keyCode){
             case 9://tab
