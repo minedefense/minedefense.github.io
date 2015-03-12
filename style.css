@@ -1,0 +1,129 @@
+@font-face {
+    font-family: Bangers;
+    src: url('fonts/Bangers/Bangers.ttf');
+}
+
+*{
+	/*ont-family: 'Sigmar One', cursive;*/
+	font-family: 'Bangers', cursive;
+}
+
+body{
+	margin: 0;
+	background: rgb(135, 206,250);
+}
+
+label{
+	font-family: 'Molengo', sans-serif;
+}
+
+#label{
+	position: absolute;
+	font-size: 3em;
+	width: 400px;
+	height: 100px;
+
+	text-align: center;
+	line-height: 100px;
+
+	white-space: nowrap;
+
+	letter-spacing: 0.02em;
+}
+
+#label:hover{
+	letter-spacing: 0.1em;
+
+}
+
+#gameUI{
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+#topbar{
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+
+	z-index: 3;
+	padding: 20px;
+}
+
+#topbar p{
+	margin: 0;
+	margin-right: 8px;
+	float: left;
+	font-size: 18px;
+}
+
+#topbar img{
+	width: 20px
+}
+
+#money{
+	float: right;
+}
+
+#life{
+	float: left;
+}
+
+#store{
+	display: none;
+
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+
+	padding: 40px;
+	background: rgba(255, 255, 255, 0.5);
+}
+
+#store h2{
+	text-align: center;
+	font-size: 3em;
+	letter-spacing: 0.1em;
+}
+
+#store .item{
+	width: 90px;
+	padding: 10px;
+	cursor: pointer;
+	float: left;
+	margin: 10px;
+}
+
+#store .item:hover{
+	background: rgba(255,255,255,0.8);
+}
+
+#store .item>img{
+	width: 90px;
+	height: 90px;
+}
+
+#store .item>label{
+	text-align: center;
+	display: inline-block;
+	width: 90px;
+	margin-top: 5px;
+	font-size: 20px;
+	white-space: nowrap;
+}
+
+#pointer{
+    position: absolute;
+}
+
+#pointer line{
+    stroke: rgba(0,0,0,0.9);
+    stroke-width: 1; 
+}

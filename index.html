@@ -1,0 +1,93 @@
+<html>
+<head>
+	<title>Mine Defense</title>
+	<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+
+	<script type="text/javascript" src="scripts/misc.js"></script>
+	<script type="text/javascript" src="scripts/glMatrix-0.9.5.min.js"></script>
+	<script type="text/javascript" src="scripts/gameEngine.js"></script>
+	<script type="text/javascript" src="scripts/webgl.js"></script>
+	<script type="text/javascript" src="scripts/texture.js"></script>
+	<script type="text/javascript" src="scripts/cube.js"></script>
+	<script type="text/javascript" src="scripts/lineCube.js"></script>
+	<script type="text/javascript" src="scripts/inputManager.js"></script>
+	<script type="text/javascript" src="scripts/collisionDetector.js"></script>
+	<script type="text/javascript" src="scripts/store.js"></script>
+	<script type="text/javascript" src="scripts/objects.js"></script>
+
+
+<link href='http://fonts.googleapis.com/css?family=Molengo' rel='stylesheet' type='text/css'>
+
+
+	<script id="shader-fs" type="x-shader/x-fragment">
+	    precision mediump float;
+
+	    uniform sampler2D uSampler;
+
+	    varying vec2 vTextureCoord;
+
+	    void main(void) {
+	        gl_FragColor = texture2D(uSampler, vTextureCoord);
+	    }
+	</script>
+
+	<script id="shader-vs" type="x-shader/x-vertex">
+	    attribute vec3 aVertexPosition;
+	    attribute vec2 aTextureCoord;
+
+	    uniform mat4 uMVMatrix;
+	    uniform mat4 uPMatrix;
+	    uniform mat4 modelMatrix;
+
+	    varying vec2 vTextureCoord;
+
+	    void main(void) {
+	        gl_Position = uPMatrix * uMVMatrix * modelMatrix * vec4(aVertexPosition, 1.0);
+	        vTextureCoord = aTextureCoord;
+	    }
+	</script>
+
+	<link rel="stylesheet" type="text/css" href="style.css">
+
+	<script type="text/javascript">
+		var game;
+		
+		function start(){
+			//place the label at the center
+			var label = document.getElementById("label");
+			label.style.top = (window.innerHeight - 100)/2;
+			label.style.left = (window.innerWidth - 400)/2;
+
+			//place the pointer at the center			
+	        var pointer = document.getElementById('pointer');
+	        pointer.style.left = (window.innerWidth - 30)/2;
+	        pointer.style.top = (window.innerHeight - 30)/2;
+
+			game = new GameEngine(label,document.getElementById('gameUI'));
+		}
+	</script>
+</head>
+<body onload="start()">
+	<div id="label"></div>
+	<div id="gameUI">
+	    <div id="topbar">
+	    	<div id="life">
+	    		<p>500</p>
+	    		<img src="icons/life.png">
+	    	</div>
+	    	<div id="money">
+	    		<p id="balance"></p>
+	    		<img src="icons/coin.png">
+	    	</div>
+	    </div>
+	    <svg id="pointer" height="30" width="30">
+	        <line x1="15" y1="0" x2="15" y2="30"/>
+	        <line x1="0" y1="15" x2="30" y2="15"/>
+	    </svg>
+	    <div id="store">
+	    	<h2>Select Item to Buy</h2>
+	    </div>
+	</div>
+
+</body>
+</html>
