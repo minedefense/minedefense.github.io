@@ -14,7 +14,7 @@ Save the game with "Fine"
 #Test on local machine
 ```
 git clone https://github.com/minedefense/minedefense.github.io
-cd https://github.com/minedefense/minedefense.github.io
+cd minedefense.github.io
 python -m SimpleHTTPServer 8080
 ```
 then point the brower at [localhost:8080](http://localhost:8080/)
