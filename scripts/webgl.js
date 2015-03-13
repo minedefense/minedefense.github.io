@@ -16,6 +16,9 @@ function initShaders(gl) {
     shaderProgram.vertexPos = gl.getAttribLocation(shaderProgram, "aVertexPosition");
     gl.enableVertexAttribArray(shaderProgram.vertexPos);   
 
+    shaderProgram.vertexNormals = gl.getAttribLocation(shaderProgram, "aVertexNormal");
+    gl.enableVertexAttribArray(shaderProgram.vertexNormals);
+
     shaderProgram.textureCoord = gl.getAttribLocation(shaderProgram, "aTextureCoord");
     gl.enableVertexAttribArray(shaderProgram.textureCoord);
 
@@ -24,6 +27,10 @@ function initShaders(gl) {
     shaderProgram.modelMatrix = gl.getUniformLocation(shaderProgram, "modelMatrix");
     shaderProgram.samplerUniform = gl.getUniformLocation(shaderProgram, "uSampler");
 
+    shaderProgram.ambientColorUniform = gl.getUniformLocation(shaderProgram, "uAmbientColor");
+    shaderProgram.lightingDirectionUniform = gl.getUniformLocation(shaderProgram, "uLightingDirection");
+    shaderProgram.directionalColorUniform = gl.getUniformLocation(shaderProgram, "uDirectionalColor");
+    
     return shaderProgram;
 }
 
@@ -99,6 +106,8 @@ function WebGL(canvas,r,g,b){
     this.gl.clearColor(r/255.0, g/255.0, b/255.0, 1.0);
     this.gl.enable(this.gl.DEPTH_TEST);
 
+    this.setAmbientLight(r,g,b);
+
     this.pos = new Position();
 
     this.elements = [];
@@ -110,7 +119,20 @@ function WebGL(canvas,r,g,b){
     this.move = function(x,y,z){
         this.pos.x = x;this.pos.y = y;this.pos.z = z;
     }
+  
 }
+
+WebGL.prototype.setAmbientLight = function(r,g,b,alpha){
+    alpha = alpha || 0.2;
+    this.gl.uniform3f(this.shader.ambientColorUniform,r*alpha/255.0, g*alpha/255.0, b*alpha/255.0);
+}
+
+WebGL.prototype.setDirectionaLight = function(r,g,b,x,y,z){
+    var direction = vec3.scale(vec3.normalize([x,y,z]),-1);
+    console.log(direction);
+    this.gl.uniform3f(this.shader.lightingDirectionUniform, direction[0],direction[1],direction[2]);
+    this.gl.uniform3f(this.shader.directionalColorUniform,r/255.0, g/255.0, b/255.0);
+}  
 
 WebGL.prototype.draw = function() {
     var gl = this.gl

@@ -1,7 +1,8 @@
 function WoodWall(ctx,textures,x,y,z){
 	this.x = x;this.y = y;this.z = z;
 
-	this.cube = new Cube(ctx,x,y,z,textures.wood);
+	var t = textures.wood;
+	this.cube = new Rect3D(ctx,x,y,z,0.5,0.5,0.5,t,t,t,t,t,t);//new Cube(ctx,x,y,z,textures.wood);
 
 	this.setSolid = function(collisions){
 		collisions.set(this.x,this.y,this.z);
@@ -32,7 +33,8 @@ WoodWall.prototype.revive = function(ctx,textures,collisions,args){
 function StoneWall(ctx,textures,x,y,z){
 	this.x = x;this.y = y;this.z = z;
 
-	this.cube = new Cube(ctx,x,y,z,textures.stone);
+	var t = textures.stone;
+	this.cube = new Rect3D(ctx,x,y,z,0.5,0.5,0.5,t,t,t,t,t,t);
 
 	this.setSolid = function(collisions){
 		collisions.set(this.x,this.y,this.z);
@@ -64,7 +66,8 @@ StoneWall.prototype.revive = function(ctx,textures,collisions,args){
 function Grass(ctx,textures,x,y,z){
 	this.x = x;this.y = y;this.z = z;
 
-	this.cube = new Cube(ctx,x,y,z,textures.grass);
+	var t = textures.grass;
+	this.cube = new Rect3D(ctx,x,y,z,0.5,0.5,0.5,t,t,t,t,t,t);
 
 	this.setSolid = function(collisions){
 		collisions.set(this.x,this.y,this.z);
@@ -96,7 +99,8 @@ Grass.prototype.revive = function(ctx,textures,collisions,args){
 function Gold(ctx,textures,x,y,z){
 	this.x = x;this.y = y;this.z = z;
 
-	this.cube = new Cube(ctx,x,y,z,textures.gold);
+	var t = textures.gold;
+	this.cube = new Rect3D(ctx,x,y,z,0.5,0.5,0.5,t,t,t,t,t,t);
 
 	this.draw = function(gl,shader){
 		this.cube.draw(gl,shader);
@@ -113,6 +117,19 @@ Gold.prototype.revive = function(ctx,textures,collisions,args){
 	var r = new Gold(ctx,textures,parseFloat(args[1]),parseFloat(args[2]),parseFloat(args[3]));
 	return r;
 }
+/*
 
+	//legs
+	this.ctx.add(new Rect3D(this.ctx, 0.15,-0.1,3, 0.1,0.4,0.08, this.textures.leg,this.colors.legTop,this.colors.legBot));
+	this.ctx.add(new Rect3D(this.ctx, -0.15,-0.1,3, 0.1,0.4,0.08, this.textures.leg,this.colors.legTop,this.colors.legBot));
+	//body
+	this.ctx.add(new Rect3D(this.ctx, 0,0.7,3, 0.25,0.4,0.08, this.colors.legTop,this.colors.legTop,this.colors.legTop));
+	//arms
+	this.ctx.add(new Rect3D(this.ctx, 0.34,0.77,3, 0.07,0.33,0.08, this.textures.arm,this.colors.legTop,this.colors.skin));
+	this.ctx.add(new Rect3D(this.ctx, -0.34,0.77,3, 0.07,0.33,0.08, this.textures.arm,this.colors.legTop,this.colors.skin));
+	//head
+	this.ctx.add(new Rect3D(this.ctx, 0,1.3,3, 0.15,0.15,0.15, this.colors.skin,this.colors.skin,this.colors.skin));
+
+*/
 
 var SCENEOBJECTS = [WoodWall,StoneWall,Grass,Gold];

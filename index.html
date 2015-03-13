@@ -21,29 +21,51 @@
 
 
 	<script id="shader-fs" type="x-shader/x-fragment">
-	    precision mediump float;
+		precision mediump float;
 
-	    uniform sampler2D uSampler;
 
-	    varying vec2 vTextureCoord;
+		varying vec2 vTextureCoord;
+		varying vec3 vLightWeighting;
 
-	    void main(void) {
-	        gl_FragColor = texture2D(uSampler, vTextureCoord);
-	    }
+		uniform sampler2D uSampler;
+
+		void main(void) {
+			vec4 textureColor = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));
+			gl_FragColor = vec4(textureColor.rgb * vLightWeighting, textureColor.a);
+		}
 	</script>
 
 	<script id="shader-vs" type="x-shader/x-vertex">
 	    attribute vec3 aVertexPosition;
+	    attribute vec3 aVertexNormal;
+
 	    attribute vec2 aTextureCoord;
 
-	    uniform mat4 uMVMatrix;
-	    uniform mat4 uPMatrix;
-	    uniform mat4 modelMatrix;
+	    uniform mat4 uPMatrix; //projection matrix 
+	    uniform mat4 uMVMatrix; //scene matrix
+	    uniform mat4 modelMatrix; //current object matrix
+
+		uniform vec3 uAmbientColor;//ambient light color
+
+		uniform vec3 uLightingDirection;//directional light direction and
+		uniform vec3 uDirectionalColor;//color
 
 	    varying vec2 vTextureCoord;
+		varying vec3 vLightWeighting;
 
 	    void main(void) {
+	    	//get position of vertex by matrix multiplication
 	        gl_Position = uPMatrix * uMVMatrix * modelMatrix * vec4(aVertexPosition, 1.0);
+	        //apply rotation to vertex normals
+	        vec3 transformedNormal = vec3(modelMatrix * vec4(aVertexNormal,0.0));
+	        //get the weight of the directional ligth
+			float directionalLightWeighting = max(dot(transformedNormal, uLightingDirection), 0.0);
+			if(aVertexNormal[0] == 0.0 && aVertexNormal[1] == 0.0 && aVertexNormal[2] == 0.0){
+				directionalLightWeighting = 1.0;
+			}
+			//compute the general light color
+			vLightWeighting = uAmbientColor + uDirectionalColor * directionalLightWeighting;
+
 	        vTextureCoord = aTextureCoord;
 	    }
 	</script>

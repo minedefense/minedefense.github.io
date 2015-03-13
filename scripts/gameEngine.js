@@ -20,6 +20,7 @@ function GameEngine(label,ui,storeEl){
     this.canvas = canvas;
 
 	this.ctx = new WebGL(canvas,135, 206,250);
+	this.ctx.setDirectionaLight(255,255,255,0,1,-1);
 	this.inputs = new KeyManager(canvas);
 	this.collisions = new CollisionDetector();
 
@@ -39,8 +40,8 @@ function GameEngine(label,ui,storeEl){
 
 	//define the game textures
 	this.textures = {};
-	this.textures.stone = this.ctx.Texture("textures/stone2.png");
-	this.textures.grass = this.ctx.Texture("textures/grass2.png");
+	this.textures.stone = this.ctx.Texture("textures/stone.png");
+	this.textures.grass = this.ctx.Texture("textures/grass.png");
 	this.textures.wood = this.ctx.Texture("textures/wood.png");
 	this.textures.leg = this.ctx.Texture("textures/leg.png");
 	this.textures.arm = this.ctx.Texture("textures/arm.png");
@@ -104,19 +105,10 @@ GameEngine.prototype.startGame = function(){
 	this.ctx.add(new Rect(this.ctx,0-0.5,0.6,3, 0,0.5,0, 0,0,0.5,this.colors.blue));
 */
 
-	//legs
-	this.ctx.add(new Rect3D(this.ctx, 0.15,-0.1,3, 0.1,0.4,0.08, this.textures.leg,this.colors.legTop,this.colors.legBot));
-	this.ctx.add(new Rect3D(this.ctx, -0.15,-0.1,3, 0.1,0.4,0.08, this.textures.leg,this.colors.legTop,this.colors.legBot));
-	//body
-	this.ctx.add(new Rect3D(this.ctx, 0,0.7,3, 0.25,0.4,0.08, this.colors.legTop,this.colors.legTop,this.colors.legTop));
-	//arms
-	this.ctx.add(new Rect3D(this.ctx, 0.34,0.77,3, 0.07,0.33,0.08, this.textures.arm,this.colors.legTop,this.colors.skin));
-	this.ctx.add(new Rect3D(this.ctx, -0.34,0.77,3, 0.07,0.33,0.08, this.textures.arm,this.colors.legTop,this.colors.skin));
-	//head
-	this.ctx.add(new Rect3D(this.ctx, 0,1.3,3, 0.15,0.15,0.15, this.colors.skin,this.colors.skin,this.colors.skin));
+	
 
 
-	new Gold(this.ctx,this.colors,0,0,-10);
+	//new Gold(this.ctx,this.colors,0,0,-10);
 
 
 	this.cursor = new LineCube(this.ctx,0,0,0,this.colors.white);
@@ -132,7 +124,25 @@ GameEngine.prototype.setCursor = function(Class,cb){
 	this.cursorObj.cb = cb;
 }
 
+var frameCount = 0;
+var lastTime = 0;
+var elapsedTime = 0;
+
 GameEngine.prototype.draw = function(){
+	var now = new Date().getTime();
+	if(lastTime != 0){
+		frameCount++;
+		elapsedTime += (now - lastTime);
+
+		if(elapsedTime >= 1000){
+			console.log("FPS: "+frameCount);
+			frameCount = 0;
+			elapsedTime -= 1000;
+		}		
+	}
+
+	lastTime = now;
+
 	//request another call to this function when next frame is needed
 	var that = this;
 	requestAnimFrame(function(){that.draw()});
@@ -168,6 +178,7 @@ GameEngine.prototype.draw = function(){
 			}
 		}
 	}
+
 }
 
 GameEngine.prototype.save = function(){

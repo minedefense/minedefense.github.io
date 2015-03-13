@@ -14,10 +14,12 @@ function LineCube(ctx,x,y,z,texture){
 
     var points = [-.5,-.5,.5,.5,-.5,.5,.5,.5,.5,-.5,.5,.5,-.5,-.5,-.5,.5,-.5,-.5,.5,+.5,-.5,-.5,.5,-.5];
 	var texCoords = [0,0,1,0,1,1,0,1,1,0,1,1,0,1,0,0,0,1,0,0,1,0,1,1,1,1,0,1,0,0,1,0,1,0,1,1,0,1,0,0,0,0,1,0,1,1,0,1];
+    var verNormals = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 	var verInd = [0,1, 1,2, 2,3, 3,0,   4,5, 5,6, 6,7, 7,4,    0,4, 1,5, 2,6, 3,7];
 
     this.vertexes = glBuffer(gl,points,3);
     this.textureCoord = glBuffer(gl,texCoords,2);
+    this.vertexNormals = glBuffer(gl,verNormals,3);
     this.vertexIndexes = glBufferUint(gl,verInd,1);
 
     this.matrix = mat4.create();
@@ -36,6 +38,10 @@ function LineCube(ctx,x,y,z,texture){
         //set vertex positions
         gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexes);
         gl.vertexAttribPointer(shader.vertexPos, this.vertexes.itemSize, gl.FLOAT, false, 0, 0);
+
+        //set vertex normals
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexNormals);
+        gl.vertexAttribPointer(shader.vertexNormals, this.vertexNormals.itemSize, gl.FLOAT, false, 0, 0);
 
         //set texture coordinates
         gl.bindBuffer(gl.ARRAY_BUFFER, this.textureCoord);
